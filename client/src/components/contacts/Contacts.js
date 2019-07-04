@@ -11,9 +11,9 @@ const Contacts = () => {
 
 
   return (
-    <div>
+    <Fragment>
       {contacts.map(contact => <ContactItem key={contact.id} contact={contact} />)}
-    </div>
+    </Fragment>
   )
 }
 
