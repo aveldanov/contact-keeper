@@ -11,8 +11,6 @@ const App = () => {
   return (
 
     <ContactState>
-
-
       <Router>
         <Fragment className="App">
           <Navbar />
