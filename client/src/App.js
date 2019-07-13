@@ -9,7 +9,6 @@ import ContactState from './context/contact/ContactState';
 
 const App = () => {
   return (
-
     <ContactState>
       <Router>
         <Fragment className="App">
