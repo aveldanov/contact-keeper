@@ -29,6 +29,7 @@ export default (state, action) => {
         ...state,
         contacts: state.contacts.filter(contact => contact.id !== action.payload)
       }
+
     default:
       return state;
   }
