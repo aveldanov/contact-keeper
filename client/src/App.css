@@ -387,17 +387,24 @@ table th {
 /* Animation (Add After) */
 .item-enter {
   opacity: 0;
+  background-color: red;
+
 }
 .item-enter-active {
   opacity: 1;
-  transition: opacity 1000ms ease-in;
+  background-color: red;
+  transition: opacity 1500ms ease-in;
 }
 .item-exit {
   opacity: 1;
+  background-color: red;
+
 }
 .item-exit-active {
+  background-color: red;
+
   opacity: 0;
-  transition: opacity 1000ms ease-in;
+  transition: opacity 1500ms ease-in;
 }
 
 /* Mobile Styles */
