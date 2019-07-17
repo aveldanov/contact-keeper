@@ -4,21 +4,27 @@ import AuthContext from '../../context/auth/authContext';
 
 
 
-const Register = () => {
+const Register = (props) => {
 
 
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { register, error, clearErrors } = authContext;
+  const { register, error, clearErrors, isAuthenticated } = authContext;
 
   useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push('/')
+    }
+
+
     if (error === 'User already exists') {
       setAlert(error, 'danger');
       clearErrors();
     }
-  }, [error])//error dependency --> will re-run whenever error changes
+    // eslint-disable-next-line 
+  }, [error, isAuthenticated, props.history])//error dependency --> will re-run whenever error changes
 
 
 

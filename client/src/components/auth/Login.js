@@ -1,6 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react';
+import AlertContext from '../../context/alert/alertContext';
+import AuthContext from '../../context/auth/authContext';
 
-const Login = () => {
+const Login = (props) => {
+
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+
+
+  const { setAlert } = alertContext;
+  const { login, error, clearErrors, isAuthenticated } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push('/')
+    } // redirects to  '/' when authenticated
+
+
+    if (error === 'Invalid credentials - user not found') {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+    // eslint-disable-next-line 
+  }, [error, isAuthenticated, props.history])//error dependency --> will re-run whenever error changes
+
+
+
+
+
 
   const [user, setUser] = useState({
     email: '',
@@ -19,7 +46,14 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('Login Submit');
+    if (email === '' || password === '') {
+      setAlert('Please fill in all fields', 'danger')
+    } else {
+      login({
+        email,
+        password
+      })
+    }
 
   }
 
@@ -35,16 +69,31 @@ const Login = () => {
 
         <div className="form-group">
           <label htmlFor="email">Email Address</label>
-          <input type="email" name="email" value={email} onChange={onChange} />
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={onChange}
+            required
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" name="password" value={password} onChange={onChange} />
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            required
+          />
         </div>
 
 
-        <input type="submit" value="Login" className="btn btn-primary btn-block" />
+        <input
+          type="submit"
+          value="Login"
+          className="btn btn-primary btn-block" />
 
       </form>
 

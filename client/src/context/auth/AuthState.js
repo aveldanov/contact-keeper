@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
 import axios from 'axios';
+import setAuthToken from '../../utils/setAuthToken';
 
 
 import {
@@ -29,7 +30,32 @@ const AuthState = props => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   // Load User
-  const loadUser = () => console.log('loaduser');
+  const loadUser = async () => {
+    // @todo - load token into global headers
+
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    console.log('local storage', localStorage);
+
+
+    try {
+      const res = await axios.get('/api/auth');
+      console.log(res.data);
+
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data
+      });
+      console.log(res.data);
+
+    } catch (err) {
+      dispatch({
+        type: AUTH_ERROR
+      })
+    }
+
+  };
 
   // Register User
   const register = async formData => {
@@ -44,7 +70,10 @@ const AuthState = props => {
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
-      })
+      });
+
+      loadUser();
+
     } catch (err) {
       dispatch({
         type: REGISTER_FAIL,
@@ -57,12 +86,41 @@ const AuthState = props => {
 
 
   // Login User
-  const login = () => console.log('login');
+
+
+  const login = async formData => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+
+    try {
+      const res = await axios.post('/api/auth', formData, config);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+      });
+
+      loadUser();
+
+    } catch (err) {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err.response.data.msg
+      })
+    }
+
+
+  }
+
 
 
   // Logout
 
-  const logout = () => console.log('logout');
+  const logout = () => dispatch({
+    type: LOGOUT
+  })
 
   // Clear Errors
 
