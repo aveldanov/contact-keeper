@@ -14,7 +14,6 @@ app.use(express.json({
 }));
 
 
-app.get('/', (req, res) => res.json({ msg: 'Hello World!!' }));
 
 // Define routes
 app.use('/api/users', require('./routes/users'));
