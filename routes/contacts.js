@@ -68,6 +68,7 @@ router.post('/', [auth,
 
 router.put('/:id', auth, async (req, res) => {
   // res.send('Update contact');
+  console.log("OUT", req.body);
 
   const { name, email, phone, type } = req.body;
 
@@ -81,6 +82,7 @@ router.put('/:id', auth, async (req, res) => {
 
   try {
     let contact = await Contact.findById(req.params.id);
+
     if (!contact) {
       return res.status(404).json({ msg: 'Contact not found' });
     }
